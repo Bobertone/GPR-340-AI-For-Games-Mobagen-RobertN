@@ -6,19 +6,37 @@
 Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Boid* boid) {
   // Try to avoid boids too close
   Vector2f separatingForce = Vector2f::zero();
-
-  //    float desiredDistance = desiredMinimalDistance;
+  Vector2f diffVector = Vector2f::zero();
+  Vector2f invVector = Vector2f::zero();
+  Vector2f accVector = Vector2f::zero();
+  float closeCount = 0;
+  float desiredDistance = desiredMinimalDistance;
   //
   //    // todo: implement a force that if neighbor(s) enter the radius, moves the boid away from it/them
-  //    if (!neighborhood.empty()) {
-  //        Vector2f position = boid->transform.position;
-  //        int countCloseFlockmates = 0;
-  //        // todo: find and apply force only on the closest mates
-  //    }
+  if(!neighborhood.empty())
+  {
+    for(int i = 0; i < neighborhood.size(); i++)
+    {
+      //if in radius
+      diffVector = boid -> getPosition() - neighborhood[i] -> getPosition();
+      auto distance = diffVector.getMagnitude();
+      if(distance < desiredDistance)
+      {
+        closeCount++;
+        //Vector2f hat = (diffVector/diffVector.getMagnitude())/(diffVector.getMagnitude()/desiredDistance);
+        auto oppositeDir = diffVector.normalized();
+        //invVector = Vector2f (1,1)/(diffVector);
+        accVector += oppositeDir/distance;
+      }
+    }
+    if(closeCount>0)
+    {
+      accVector /= closeCount;
+    }
+  }
+  accVector = Vector2f::normalized(accVector);
 
-  separatingForce = Vector2f::normalized(separatingForce);
-
-  return separatingForce;
+  return accVector;
 }
 
 bool SeparationRule::drawImguiRuleExtra() {

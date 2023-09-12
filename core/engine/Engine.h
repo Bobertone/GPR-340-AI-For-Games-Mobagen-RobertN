@@ -18,7 +18,7 @@ class Engine {
 private:
   std::chrono::high_resolution_clock::time_point lastFrameTime;
   float deltaTime;
-  double targetFPS = 60;
+  double targetFPS = 30;
   int64_t accumulatedTime = 0;
   EngineSettings settings;
   inline static Engine* instance = nullptr;
