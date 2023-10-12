@@ -1,6 +1,7 @@
 #ifndef POINT2D_H
 #define POINT2D_H
 #include <string>
+#include <cstdint>
 
 struct Point2D {
 public:
@@ -24,6 +25,7 @@ public:
   const static Point2D DOWN;
   const static Point2D LEFT;
   const static Point2D RIGHT;
+  const static Point2D INFINITE;
   std::string to_string();
 
   // for unordered set
