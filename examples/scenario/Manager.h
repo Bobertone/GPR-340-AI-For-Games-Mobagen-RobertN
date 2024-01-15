@@ -10,6 +10,7 @@
 
 class Manager : public GameObject {
 private:
+  void save_texture(const char* file_name, SDL_Renderer* renderer, SDL_Texture* texture); //TODO save
   float accumulatedTime = 0;
   int sideSize = 512;
   SDL_Texture* texture;

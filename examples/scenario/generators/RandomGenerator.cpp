@@ -27,16 +27,18 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
 
       auto avg = (c1 + islandInfluence) / 2;
 
-      if (avg < 50)
-        colors.emplace_back(Color::DarkBlue);
-      else if (avg < 100)
-        colors.emplace_back(Color::Yellow);
-      else if (avg < 150)
-        colors.emplace_back(Color::Green);
-      else if (avg < 200)
-        colors.emplace_back(Color::Brown);
-      else
-        colors.emplace_back(Color::White);
+      colors.push_back(Color32(c1,c1,c1));
+
+//      if (avg < 50)
+//        colors.emplace_back(Color::DarkBlue);
+//      else if (avg < 100)
+//        colors.emplace_back(Color::Yellow);
+//      else if (avg < 150)
+//        colors.emplace_back(Color::Green);
+//      else if (avg < 200)
+//        colors.emplace_back(Color::Brown);
+//      else
+//        colors.emplace_back(Color::White);
     }
   }
   std::cout << colors.size() << std::endl;

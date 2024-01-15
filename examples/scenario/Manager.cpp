@@ -3,6 +3,7 @@
 #include "generators/ParticleGenerator.h"
 #include "generators/RandomGenerator.h"
 #include "engine/Engine.h"
+#include "SDL_image.h"
 
 #include <chrono>
 
@@ -114,7 +115,13 @@ void Manager::OnGui(ImGuiContext* context) {
   if (ImGui::Button("Pause")) {
     isSimulating = false;
   }
-  ImGui::End();
+  if (ImGui::Button("Save")) {
+    // https://stackoverflow.com/a/51238719
+    save_texture("output.png",this->engine->window->sdlRenderer,texture);
+    isSimulating = false;
+  }
+
+    ImGui::End();
 }
 void Manager::Update(float deltaTime) {
   if (isSimulating) {
@@ -133,4 +140,17 @@ void Manager::step() {
   //  auto step = std::chrono::high_resolution_clock::now();
   SetPixels(pixels);
   //  auto end = std::chrono::high_resolution_clock::now();
+}
+
+//TODO save
+void Manager::save_texture(const char* file_name, SDL_Renderer* renderer, SDL_Texture* texture) {
+  SDL_Texture* target = SDL_GetRenderTarget(renderer);
+  SDL_SetRenderTarget(renderer, texture);
+  int width, height;
+  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+  SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  SDL_RenderReadPixels(renderer, NULL, surface->format->format, surface->pixels, surface->pitch);
+  IMG_SavePNG(surface, file_name);
+  SDL_FreeSurface(surface);
+  SDL_SetRenderTarget(renderer, target);
 }

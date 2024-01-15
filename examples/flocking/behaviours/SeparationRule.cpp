@@ -8,7 +8,7 @@ Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Bo
   Vector2f separatingForce = Vector2f::zero();
   Vector2f diffVector = Vector2f::zero();
   Vector2f invVector = Vector2f::zero();
-  Vector2f accVector = Vector2f::zero();
+  Vector2f sumVector = Vector2f::zero();
   float closeCount = 0;
   float desiredDistance = desiredMinimalDistance;
   //
@@ -23,20 +23,23 @@ Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Bo
       if(distance < desiredDistance)
       {
         closeCount++;
+        separatingForce = (diffVector/diffVector.getMagnitude());
         //Vector2f hat = (diffVector/diffVector.getMagnitude())/(diffVector.getMagnitude()/desiredDistance);
-        auto oppositeDir = diffVector.normalized();
+        //auto oppositeDir = diffVector.normalized();
         //invVector = Vector2f (1,1)/(diffVector);
-        accVector += oppositeDir/distance;
+        //accVector += oppositeDir/distance;
+        //accVector += distance/(abs(distance));
+        sumVector += separatingForce;
       }
     }
-    if(closeCount>0)
-    {
-      accVector /= closeCount;
-    }
+//    if(closeCount>0)
+//    {
+//      accVector /= closeCount;
+//    }
   }
-  accVector = Vector2f::normalized(accVector);
+  //accVector = Vector2f::normalized(accVector);
 
-  return accVector;
+  return sumVector;
 }
 
 bool SeparationRule::drawImguiRuleExtra() {

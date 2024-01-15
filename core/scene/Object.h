@@ -34,8 +34,8 @@ public:
 public:
   static void DontDestroyOnLoad(const Object& object){};
 
-public:
-  std::string ToString(){};
+//public:
+//  std::string ToString(){};
 };
 
 #endif  // MOBAGEN_ENGINE_OBJECT_H_
